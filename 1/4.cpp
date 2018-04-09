@@ -45,7 +45,7 @@ vector<int> Divide(T m[], T n[], int ml, int mh, int nl, int nh) {
 		int nm = (nl + nh) / 2;
 		if (m[mh] <= n[nm + 1] && n[nm] <= m[mh]) {
 			index.push_back(mh);
-			index.push_back(nh);
+			index.push_back(nm);
 			return index;
 		}
 		else if (m[mh]>n[nm + 1]) {
@@ -55,8 +55,8 @@ vector<int> Divide(T m[], T n[], int ml, int mh, int nl, int nh) {
 	}
 	else if (nl == nh) {//n数组只剩一个元素，m不只剩一个元素 
 		int mm = (ml + mh) / 2;
-		if (m[mh] <= n[nh] && n[nh] <= m[mh]) {
-			index.push_back(mh);
+		if (m[mm] <= n[nh] && n[nh] <= m[mm+1]) {
+			index.push_back(mm);
 			index.push_back(nh);
 			return index;
 		}
