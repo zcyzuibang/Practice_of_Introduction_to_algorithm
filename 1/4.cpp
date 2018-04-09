@@ -71,36 +71,36 @@ vector<int> Divide(T m[], T n[], int ml, int mh, int nl, int nh) {
 template<typename T>
 T Kth_Largest(int k, T m[], T n[], int ml, int mh, int nl, int nh) {
 	vector<int> index = Divide(m, n, ml, mh, nl, nh);
-	if (index[0] == 0) {//m数组中最小的元素都比n数组中最大的大 
-		if (k <= mh) {
+	if (index[0] <ml) {//切割数组m切到了最左端 
+		if (k <= mh - index[0]) {
 			return m[mh - k + 1];
 		}
 		else {
-			return n[nh - (k - mh) + 1];	
+			return n[nh - (k - (mh - index[0])) + 1];
 		}
 	}
-	if (index[1] == 0) {//n数组中最小的元素都比m数组中最大的大 
-		if (k <= nh) {
+	if (index[1] <nl) {//切割数组n切到了最左端  
+		if (k <= nh - index[1]) {
 			return n[nh - k + 1];
 		}
 		else {
-			return m[mh - (k - nh) + 1];
+			return m[mh - (k - (nh - index[1])) + 1];
 		}
 	}
-	if ( nh == index[1]) {//n数组中最大的元素都比m数组中的某一个小 
-		if (k <= mh-index[0]) {
-			return m[mh - k + 1];
-		}
-		else {
-			return Kth_Largest(k - (mh - index[0]), m, n, ml, index[0], nl, nh);
-		}
-	}
-	if ( mh == index[0]) {//m数组中最大的元素都比n数组中的某一个小
+	if ( mh == index[0]) {//切割数组m切到了最右端 
 		if (k <= nh-index[1]) {
 			return n[nh - k + 1];
 		}
 		else {
 			return Kth_Largest(k - (nh - index[1]), m, n, ml, mh, nl, index[1]);
+		}
+	}
+	if ( nh == index[1]) {//切割数组n切到了最右端 
+		if (k <= mh-index[0]) {
+			return m[mh - k + 1];
+		}
+		else {
+			return Kth_Largest(k - (mh - index[0]), m, n, ml, index[0], nl, nh);
 		}
 	}
 	//	for(int i=0;i<2;i++)	cout<<index[i]<<endl;
@@ -117,8 +117,7 @@ T Kth_Largest(int k, T m[], T n[], int ml, int mh, int nl, int nh) {
 	}
 }
 
-int main() {while(1){
-
+int main() {
 	int m[arr_size] = { 0 };
 	int n[arr_size] = { 0 };
 	int mh, nh;
@@ -137,6 +136,6 @@ int main() {while(1){
 //	vector<int> index = Divide(m, n, 1, mh, 1, nh);
 //	for (int i = 0; i<2; i++)	cout << index[i] << endl;
 	cout << Kth_Largest(k, m, n, 1, mh, 1, nh) << endl;
-	system("pause");}	
+	system("pause");	
 	return 0;
 }
